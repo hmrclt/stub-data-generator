@@ -20,3 +20,11 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 initialCommands in console := """import org.scalacheck._; import hmrc.smartstub._"""
 
 enablePlugins(TutPlugin)
+
+enablePlugins(GhpagesPlugin)
+
+git.remoteRepo := "git@github.com:hmrclt/stub-data-generator.git"
+ghpagesNoJekyll := true
+
+
+
