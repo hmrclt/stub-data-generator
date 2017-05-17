@@ -83,9 +83,15 @@ addresses.sample.get.map{println}
 
 ## Postcodes
 
-To be supplied
+It is sometimes useful to be able to produce a postcode directly. The postcode generator can be used for this:
 
+```tut
+import org.scalacheck._
+import hmrc.smartstub._
 
+val postcodes = Gen.postcode
+postcodes.sample.get
+```
 
 ## Patterns
 
