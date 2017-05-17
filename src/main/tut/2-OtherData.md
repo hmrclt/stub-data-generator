@@ -95,9 +95,28 @@ postcodes.sample.get
 
 ## Patterns
 
-To be supplied
+Business data often uses reference numbers for identification and other purposes. The **stub-data-generator** can generate arbitrary string patterns for this. It is also capable of generating other types if necessary.
 
+Patterns generate a finite list of data so they are generally accessed using the usual access methods such as  ```head```, ```tail```, or accessed via an index. As usual if an index is greater than or equal to the ```size``` an exception will be thrown.
 
+You can get a random element from the pattern by creating a generator with the ```gen``` method and taking a sample.
+
+```tut
+import org.scalacheck._
+import hmrc.smartstub._
+
+val patterns = pattern"Z Z"
+patterns.head
+patterns(35L)
+patterns.gen.sample
+```
+
+Patterns are present in the library as string operators, similar to Saca's ```s"…"``` and ```r"…"``` The characters of the string generate the patterns as follows:
+
+1. A lower case letter will create patterns from 'a' up to and including the specified letter. So 'c' will generate 'a' or 'b' or 'c'.
+2. An upper case letter will create patterns from 'A' up to and including the specified letter. So 'D' will generate 'A' or 'B' or 'C' or 'D'.
+3. A digit will generate a number from '0' up to and including the digit itself. So, '3' will generate '1' or '2' or '3'.
+4. Any other character will appear unchanged, so putting a space in the string will always leave that part of the pattern with a space in it.
 
 ## Composite data
 
