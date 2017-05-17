@@ -17,10 +17,10 @@ scala> import org.scalacheck._
 import org.scalacheck._
 
 scala> val personName = Gen.alphaStr
-personName: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@61433ac3
+personName: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@20bb5605
 
 scala> personName.sample.foreach(println)
-obgtfvs
+hxxdrqvxlokpnxqrxZ
 ```
 
 This is ideal for producing tests with the intent of stressing our code since the strings that are produced are the kind of names that we would not normally use. They exercise the code in the presence of really unusual names (for example names hundreds of characters long, or names with punctuation in them).
@@ -34,10 +34,10 @@ scala> import org.scalacheck._
 import org.scalacheck._
 
 scala> val personNames = Gen.alphaStr
-personNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@4a421d9e
+personNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@3961288a
 
 scala> personNames.sample.foreach(println)
-
+kxhvamxwqbqYngwtegkms
 ```
 
 The stub generator addresses both of these issues. In order to try it, you need to add the library dependancy to the build.sbt file:
@@ -64,16 +64,16 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val names = Gen.forename
-names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@4f3bdc97
+names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@7f1a4869
 
 scala> names.sample.foreach(println)
-Jackson
+Arianna
 
 scala> names.sample.foreach(println)
-Mackenzie
+Adeline
 
 scala> names.sample.foreach(println)
-Mila
+Evelyn
 ```
 
 We can generate surnames in a similar fashion:
@@ -86,16 +86,16 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val lastnames = Gen.surname
-lastnames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@1f1f8c34
+lastnames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@280a4e0d
 
 scala> lastnames.sample.foreach{println}
-Dowell
+Turner
 
 scala> lastnames.sample.foreach{println}
-Guyett
+Scott
 
 scala> lastnames.sample.foreach{println}
-Bonneviot
+Pearce
 ```
 
 These meet the requirement that the data that is generated is plausible, but using this method the data is not repeatable. If the console is restarted and another surname is generated:
@@ -108,10 +108,10 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val lastnames = Gen.surname
-lastnames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@1f1f8c34
+lastnames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@280a4e0d
 
 scala> lastnames.sample.foreach{println}
-Cox
+Simon
 ```
 
 The surnames generated will be different.
@@ -126,7 +126,7 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val names = Gen.forename
-names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@6136a042
+names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@7129cc37
 
 scala> names.seeded(1L).foreach{println}
 Charlotte
@@ -148,7 +148,7 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val names = Gen.forename
-names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@2354111f
+names: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@78e56d8b
 
 scala> names.seeded(2L).foreach{println}
 Isaiah
@@ -164,10 +164,10 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val randomNames = (1 to 5).map{x => names.sample.get}
-randomNames: scala.collection.immutable.IndexedSeq[String] = Vector(Avery, Arianna, Emma, Hailey, Alexander)
+randomNames: scala.collection.immutable.IndexedSeq[String] = Vector(Riley, Andrew, Dylan, Isaac, Maria)
 
 scala> val moreRandomNames = (1 to 5).map{x => names.sample.get}
-moreRandomNames: scala.collection.immutable.IndexedSeq[String] = Vector(Eli, Anna, Mason, Sarah, Caden)
+moreRandomNames: scala.collection.immutable.IndexedSeq[String] = Vector(Daniel, Leah, Hannah, Logan, Ryan)
 ```
 
 But if we want to generate the same collection of names each time, we have to use ```seeded``` with the same inputs:

@@ -12,6 +12,7 @@ target/
 lib_managed/
 src_managed/
 project/boot/
+src/site
 project/plugins/project/
 project/build/properties
 
