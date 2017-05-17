@@ -14,7 +14,8 @@ The library is built for use within Scala Play 2.5 application controllers, but 
 addSbtPlugin("hmrc" %% "stub-data-generator" % "0.1.0")
 ```
 
-## Documentation     1	[Generating simple data](target/post-tut/1-SimpleData.md)
+## Documentation
+     1	[Generating simple data](target/post-tut/1-SimpleData.md)
      2	[Generating other kinds of data](target/post-tut/2-OtherData.md)
      3	[Composing data](target/post-tut/3-ComposingData.md)
      4	[Enumerations and Patterns](target/post-tut/4-Enumerations.md)
