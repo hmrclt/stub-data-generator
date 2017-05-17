@@ -60,16 +60,16 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> boy = Gen.<span class="fu">forename</span>(Male)
-boy: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@5ab5b69
+boy: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@19733d0f
 
 scala&gt; <span class="kw">val</span> girl = Gen.<span class="fu">forename</span>(Female)
-girl: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@cde2ccd
+girl: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@7adaab87
 
 scala&gt; s<span class="st">&quot;${boy.sample.get} likes ${girl.sample.get}&quot;</span>
-res0: String = Matthew likes Harper
+res0: String = Brayden likes Sarah
 
 scala&gt; s<span class="st">&quot;${girl.sample.get} likes ${boy.sample.get}&quot;</span>
-res1: String = Mila likes Wyatt</code></pre></div>
+res1: String = Camilla likes Michael</code></pre></div>
 <h2 id="email-addresses">Email addresses</h2>
 <p>Email addresses can be produced on demand:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -87,17 +87,17 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> firstNames = Gen.<span class="fu">forename</span>
-firstNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@6cba1530
+firstNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@121c1be9
 
 scala&gt; <span class="kw">val</span> lastNames = Gen.<span class="fu">surname</span>
-lastNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@77aa0c14
+lastNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@67d9f941
 
 scala&gt; <span class="co">//get a single first and last name</span>
      | <span class="kw">val</span> f = firstNames.<span class="fu">sample</span>.<span class="fu">get</span>
-f: String = Grace
+f: String = Anna
 
 scala&gt; <span class="kw">val</span> l = lastNames.<span class="fu">sample</span>.<span class="fu">get</span>
-l: String = Patel
+l: String = Wilson
 
 scala&gt; <span class="co">//To be supplied</span>
      | <span class="co">//generate multiple emails based on that first and last name</span>
@@ -113,10 +113,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> dates = Gen.<span class="fu">date</span>
-dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@6282138a
+dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@7d21b2dd
 
 scala&gt; dates.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-<span class="dv">1986</span>-<span class="dv">11</span>-<span class="dv">10</span></code></pre></div>
+<span class="dv">1997</span>-<span class="dv">07</span>-<span class="dv">14</span></code></pre></div>
 <p>For dates in a wider range, simply supply the beginning and end year - these are inclusive so that if the firts year is 1935 and the end year is 2018, dates in either 1935 or 2018 could be generated.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -125,10 +125,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> dates = Gen.<span class="fu">date</span>(<span class="dv">1935</span>, <span class="dv">2018</span>)
-dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@c93fe0b
+dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@16b79ea7
 
 scala&gt; dates.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-<span class="dv">1957</span>-<span class="dv">09</span>-<span class="dv">01</span></code></pre></div>
+<span class="dv">1974</span>-<span class="dv">01</span>-<span class="dv">06</span></code></pre></div>
 <h2 id="uk-addresses">UK Addresses</h2>
 <p>The addresses are currently uk personal addresses. The <code>sample</code> method has a type of <code>Option[List[String]]</code>, so demontrating it needs a <code>get</code> and a <code>map</code>.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -138,13 +138,13 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> addresses = Gen.<span class="fu">ukAddress</span>
-addresses: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[List[String]] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@1d415a37
+addresses: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[List[String]] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@<span class="dv">28421156</span>
 
 scala&gt; addresses.<span class="fu">sample</span>.<span class="fu">get</span>.<span class="fu">map</span>{println}
-<span class="dv">68</span>
-Town Shott
-Bolton
-BL86 7LE
+<span class="dv">146</span>
+Lamerton Grove
+Worcester
+WR35 3BD
 res11: List[Unit] = List((), (), (), ())</code></pre></div>
 <h2 id="postcodes">Postcodes</h2>
 <p>To be supplied</p>
@@ -173,10 +173,10 @@ scala&gt; <span class="kw">val</span> people: Gen[Person] = <span class="kw">for
      | dob &lt;- Gen.<span class="fu">date</span>(<span class="dv">1935</span>, <span class="dv">2000</span>)
      | address &lt;- Gen.<span class="fu">ukAddress</span>
      | } <span class="kw">yield</span> <span class="fu">Person</span>(gender, s<span class="st">&quot;$fname $sname&quot;</span>, dob, address)
-people: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[Person] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@20eab10
+people: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[Person] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@<span class="dv">49484834</span>
 
 scala&gt; people.<span class="fu">sample</span>.<span class="fu">get</span>
-res12: Person = <span class="fu">Person</span>(Male,Andrew Williamson,<span class="dv">1946</span>-<span class="dv">01</span>-<span class="dv">31</span>,List(<span class="dv">68</span>, Brook Street West, Warrington, WA33 0BL))</code></pre></div>
+res12: Person = <span class="fu">Person</span>(Female,Kaylee Booth,<span class="dv">1950</span>-<span class="dv">08</span>-<span class="dv">14</span>,List(<span class="dv">79</span>, West Ashling Road, Glasgow, G53 1BR))</code></pre></div>
             </div>
     </div>
   </div>
