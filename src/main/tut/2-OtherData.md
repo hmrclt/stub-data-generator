@@ -95,9 +95,14 @@ To be supplied
 
 ## Composite data
 
-Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.) so:
+Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.). 
+
+Note how in the following example, the result of the forename generator is dependant on the result of the gender generator:
 
 ```tut
+import org.scalacheck._
+import hmrc.smartstub._
+
 case class Person(
 gender: Gender,
 name: String,

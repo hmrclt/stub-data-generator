@@ -22,7 +22,7 @@ scala> val personGenerator: Gen[Person] = for {
      |   dob <- Gen.date(1940,2010)
      |   address <- Gen.ukAddress
      | } yield Person(gender, s"$fname $sname", dob, address)
-personGenerator: org.scalacheck.Gen[Person] = org.scalacheck.Gen$$anon$3@64be294d
+personGenerator: org.scalacheck.Gen[Person] = org.scalacheck.Gen$$anon$3@2170ced3
 
 scala> val person = personGenerator.seeded(1L).get
 person: Person = Person(Female,Charlotte Kaur,1965-05-22,List(140, Penny Hedge, Dumfries, DG58 8MG))

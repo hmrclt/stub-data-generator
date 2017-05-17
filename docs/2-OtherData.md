@@ -14,16 +14,16 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val boy = Gen.forename(Male)
-boy: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@589e6465
+boy: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@3ed2f74
 
 scala> val girl = Gen.forename(Female)
-girl: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@28e741d4
+girl: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@650b942c
 
 scala> s"${boy.sample.get} likes ${girl.sample.get}"
-res0: String = Jayden likes Charlotte
+res0: String = Nathan likes Adalyn
 
 scala> s"${girl.sample.get} likes ${boy.sample.get}"
-res1: String = Peyton likes Jackson
+res1: String = Victoria likes Grayson
 ```
 
 ## Email addresses
@@ -50,17 +50,17 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val firstNames = Gen.forename
-firstNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@563b68f8
+firstNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$3@17608849
 
 scala> val lastNames = Gen.surname
-lastNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@38044dec
+lastNames: org.scalacheck.Gen[String] = org.scalacheck.Gen$$anon$1@7d6f84a3
 
 scala> //get a single first and last name
      | val f = firstNames.sample.get
-f: String = Cameron
+f: String = Elijah
 
 scala> val l = lastNames.sample.get
-l: String = Booth
+l: String = Austin
 
 scala> //To be supplied
      | //generate multiple emails based on that first and last name
@@ -81,10 +81,10 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val dates = Gen.date(1970, 2000)
-dates: org.scalacheck.Gen[java.time.LocalDate] = org.scalacheck.Gen$$anon$3@2a4ecba9
+dates: org.scalacheck.Gen[java.time.LocalDate] = org.scalacheck.Gen$$anon$3@5643f6c8
 
 scala> dates.sample.foreach{println}
-1973-06-28
+1975-08-12
 ```
 
 For dates in a wider range, simply supply the beginning and end year - these are inclusive so that if the firts year is 1935 and the end year is 2018, dates in either 1935 or 2018 could be generated.
@@ -97,10 +97,10 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val dates = Gen.date(1935, 2018)
-dates: org.scalacheck.Gen[java.time.LocalDate] = org.scalacheck.Gen$$anon$3@5f095e38
+dates: org.scalacheck.Gen[java.time.LocalDate] = org.scalacheck.Gen$$anon$3@418992a3
 
 scala> dates.sample.foreach{println}
-1965-06-13
+1993-11-10
 ```
 
 ## UK Addresses
@@ -115,13 +115,13 @@ scala> import hmrc.smartstub._
 import hmrc.smartstub._
 
 scala> val addresses = Gen.ukAddress
-addresses: org.scalacheck.Gen[List[String]] = org.scalacheck.Gen$$anon$3@59f50dc0
+addresses: org.scalacheck.Gen[List[String]] = org.scalacheck.Gen$$anon$3@1eb86a47
 
 scala> addresses.sample.get.map{println}
-99
-Sowbury Park
-Dundee
-DD94 0CX
+45
+Rossett Way
+West London
+W01 0EC
 res11: List[Unit] = List((), (), (), ())
 ```
 
@@ -139,9 +139,17 @@ To be supplied
 
 ## Composite data
 
-Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.) so:
+Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.). 
+
+Note how in the following example, the result of the forename generator is dependant on the result of the gender generator:
 
 ```scala
+scala> import org.scalacheck._
+import org.scalacheck._
+
+scala> import hmrc.smartstub._
+import hmrc.smartstub._
+
 scala> case class Person(
      | gender: Gender,
      | name: String,
@@ -156,10 +164,10 @@ scala> val people: Gen[Person] = for {
      | dob <- Gen.date(1935, 2000)
      | address <- Gen.ukAddress
      | } yield Person(gender, s"$fname $sname", dob, address)
-people: org.scalacheck.Gen[Person] = org.scalacheck.Gen$$anon$3@1effd135
+people: org.scalacheck.Gen[Person] = org.scalacheck.Gen$$anon$3@74a4b5f7
 
 scala> people.sample.get
-res12: Person = Person(Male,Wyatt Richards,1946-05-04,List(64, Parkhills Road, Dorchester, DT57 8LG))
+res12: Person = Person(Female,Emma Troller,1975-01-06,List(76, Courageous Close, Paisley, PA94 4EC))
 ```
 
 
