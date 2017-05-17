@@ -118,6 +118,18 @@ Patterns are present in the library as string operators, similar to Saca's ```s"
 3. A digit will generate a number from '0' up to and including the digit itself. So, '3' will generate '1' or '2' or '3'.
 4. Any other character will appear unchanged, so putting a space in the string will always leave that part of the pattern with a space in it.
 
+It is possible to create other kinds of data from the Pattern class that the library contails. Patterns are just sequences of sequences, so almost anything could be created, a simple example would be a pattern that generates even numbers between 1 and 100.
+
+```tut
+import org.scalacheck._
+import hmrc.smartstub._
+
+val patterns = Gen.pattern(Seq({0 to 100}.filter(_ % 2 == 0)))
+patterns.gen.sample.get.head
+```
+
+
+
 ## Composite data
 
 Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.). 
