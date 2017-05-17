@@ -12,7 +12,7 @@ The library is built for use within Scala Play 2.5 application controllers, but 
 
 ```scala
 addSbtPlugin("hmrc" %% "stub-data-generator" % "0.1.0")
-```ZZ
+```
 
 ## Documentation
 
