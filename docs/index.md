@@ -8,7 +8,8 @@ This website contains both tutorial and reference material. Questions and commen
 
 [Starting with the stub data generator.](1-SimpleData.html)
 
-Other data.
+[Generating Other data.](2-OtherData.html)
+
 
 Creating a stub in scala.
 
