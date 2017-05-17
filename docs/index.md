@@ -2,8 +2,8 @@
 
 This is the stub data generator. It does...
 
-(Starting with the stub data generator.)[1-SimpleData.html]
+[Starting with the stub data generator.](1-SimpleData.html)
 
 Other data.
 
-etc.
+Creating a stub in scala.
