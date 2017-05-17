@@ -8,9 +8,11 @@ trait Temporal extends Any {
   def date(start: LocalDate, end: LocalDate): Gen[LocalDate] = 
     choose(start.toEpochDay, end.toEpochDay).map(LocalDate.ofEpochDay)
 
+  def date: Gen[LocalDate] = date (1970, 2000)
+
   def date(
-    start: Int = 1970,
-    end: Int = 2000
+    start: Int,
+    end: Int
   ): Gen[LocalDate] = date(
     LocalDate.of(start, 1, 1),
     LocalDate.of(end, 12, 31)

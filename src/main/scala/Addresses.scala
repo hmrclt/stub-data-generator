@@ -18,17 +18,20 @@ trait Addresses extends Any {
     addressNumber <- choose(1,150)
     (codePrefix,town) <- postcodeRegions
     street <- streetNames
-    postcode <- listOfN(2,alphaUpperChar).map(_.mkString).flatMap{
-      n => listOfN(3,choose(0,9)).map(_.mkString).map{
-        x => s"${codePrefix}${x.init} ${x.last}${n}"
-      }
-    }
+    postcode <- postcodeSuffix
   } yield List(
     addressNumber.toString() ++ addressLetter.getOrElse(""),
     street,
     town,
-    postcode
+    codePrefix ++ postcode
   )
+
+  def postcode: Gen[String] = for {
+    pre <- postcodeRegions.map(_._1)
+    post <- postcodeSuffix
+  } yield {
+    pre ++ post
+  }
 }
 
 object Addresses extends Loader {
@@ -37,14 +40,11 @@ object Addresses extends Loader {
     x => (x.split(":").head, x.dropWhile(_ != ':').tail)
   }
 
-  private[smartstub] lazy val postcode = {
-    def chars(n: Int) = listOfN(n, alphaUpperChar).map(_.mkString)
-    def digits(n: Int) = listOfN(n, numChar).map(_.mkString)
-    for {
-      one <- chars(2)
-      two <- digits(2)
-      three <- numChar
-      four <- chars(2)
-    } yield s"$one$two $three$four"
-  }
+  val postcodeSuffix: Gen[String] =
+    listOfN(2,alphaUpperChar).map(_.mkString).flatMap{
+      n => listOfN(3,choose(0,9)).map(_.mkString).map{
+        x => s"${x.init} ${x.last}${n}"
+      }
+    }
+  
 }
