@@ -15,3 +15,4 @@ addSbtPlugin("hmrc" %% "stub-data-generator" % "0.1.0")
 ```
 
 ## Documentation
+
