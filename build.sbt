@@ -20,6 +20,7 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 initialCommands in console := """import org.scalacheck._; import hmrc.smartstub._"""
 
 enablePlugins(TutPlugin)
+tutTargetDirectory := new sbt.File("target/post-tut")
 
 enablePlugins(GhpagesPlugin)
 
