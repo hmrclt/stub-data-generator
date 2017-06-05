@@ -1,8 +1,8 @@
 package hmrc
 
 import org.scalacheck._
-
 import scala.language.implicitConversions
+import cats.functor.Invariant
 
 package object smartstub
     extends Enumerable.ToEnumerableOps
@@ -18,6 +18,10 @@ package object smartstub
       with Addresses
       with Temporal
       with Pattern
+  {
+    def boolean: Gen[Boolean] = Gen.oneOf(true, false)
+  }
+
 
   implicit val longEnum = Enumerable.instances.longEnum
 
@@ -28,6 +32,12 @@ package object smartstub
         case u if u.isUpper => 'A' to u
         case l if l.isLower => 'a' to l
         case x => Seq(x)
-      }).map(_.mkString, s => {s: Seq[Char]})
+      }).imap(_.mkString)(s => {s: Seq[Char]})
   }
+
+  implicit val enumInvariant: Invariant[Enumerable] = new Invariant[Enumerable] {
+    def imap[A, B](fa: Enumerable[A])(f: A => B)(finv: B => A): Enumerable[B] =
+      fa.imap(f)(finv)
+  }
+
 }

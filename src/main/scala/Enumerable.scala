@@ -42,7 +42,7 @@ import org.scalacheck._
     }
   }
 
-  def map[B](f: A => B, invf: B => A): Enumerable[B] = {
+  def imap[B](f: A => B)(invf: B => A): Enumerable[B] = {
     val base = this
     new Enumerable[B] {
       override def get(i: Long) = base.get(i).map(f)
