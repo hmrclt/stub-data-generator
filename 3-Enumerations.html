@@ -49,137 +49,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <div class="container">
     <div class="row">
             <div class="span12">
-            <h1 id="generating-simple-data">Generating simple data</h1>
-<p>The <strong>smart-stub-generator</strong> works by adding functionality to ScalaCheck and in in order to use the stub generator, you need to have an idea of how ScalaCheck itself works. The ScalaCheck library is not available in the default library and the easiest way to manage the dependancy is to create a directory with a simple build.sbt file in it that brings it in:</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="fu">mkdir</span> stubs
-$ <span class="bu">cd</span> stubs
-$ <span class="bu">echo</span> <span class="st">'libraryDependencies += &quot;org.scalacheck&quot; %% &quot;scalacheck&quot; % &quot;1.13.4&quot;'</span> <span class="op">&gt;</span> build.sbt
-$ <span class="ex">sbt</span> console
-<span class="ex">scala</span><span class="op">&gt;</span></code></pre></div>
-<p>You will now be able to start using ScalaCheck. For example:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">val</span> personName = Gen.<span class="fu">alphaStr</span>
-personName: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@11aa021f
-
-scala&gt; personName.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-fktmbvoLmhqBtwuler</code></pre></div>
-<p>This is ideal for producing tests with the intent of stressing our code since the strings that are produced are the kind of names that we would not normally use. They exercise the code in the presence of really unusual names (for example names hundreds of characters long, or names with punctuation in them).</p>
-<p>From the perspective of rapidly creating a stub that has to produce <em>plausible</em> data, ScalaCheck is limited not ideal though. We want to construct names that look like they might represent a real person so that we can either demonstrate our work or visualize it.</p>
-<p>We would also like to be able to recreate data on demand. ScalaCheck will produce a different alphanumeric string each time it is asked to give a sample. So if you were to restart sbt and create another personName you would get an entirely different string:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">val</span> personNames = Gen.<span class="fu">alphaStr</span>
-personNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@3012a99
-
-scala&gt; personNames.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-gelbigcxnzndmzlpinlkkzkxshttiSlifvc</code></pre></div>
-<p>The stub generator addresses both of these issues. In order to try it, you need to add the library dependancy to the build.sbt file:</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="bu">echo</span> <span class="st">'libraryDependencies += &quot;hmrc&quot; %% &quot;stub-data-generator&quot; % &quot;0.1.0&quot;'</span> <span class="op">&gt;&gt;</span> build.sbt</code></pre></div>
-<p>(Note the use of the <code>&gt;&gt;</code> in this command, it appends text to a file.)</p>
-<p>Alternatively, open the build.sbt in the text editor of your choice and add:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">libraryDependencies += <span class="st">&quot;hmrc&quot;</span> %% <span class="st">&quot;stub-data-generator&quot;</span> % <span class="st">&quot;0.1.0&quot;</span></code></pre></div>
-<p>Now you can use the <code>sbt console</code> command to work with the stub generator. We can use the new <code>Gen.forename</code> method to create plausible first names.</p>
+            <h2 id="enumerations">Enumerations</h2>
+<p>When generating sample data you often have to pick one from a small collection of possible choices. For example, an individual could be either dead or alive. We would not normally expect an individual to be both.</p>
+<p>Imagine we wish to represent this in code:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 
 scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
-scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@4a00aa70
+scala&gt; <span class="kw">import</span> Gen._
+<span class="kw">import</span> Gen._
 
-scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Hailey
+scala&gt; <span class="kw">sealed</span> <span class="kw">trait</span> LifeSign
+defined <span class="kw">trait</span> LifeSign
 
-scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Isabella
+scala&gt; <span class="kw">case</span> <span class="kw">object</span> Alive <span class="kw">extends</span> LifeSign
+defined <span class="kw">object</span> Alive
 
-scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Carter</code></pre></div>
-<p>We can generate surnames in a similar fashion:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
+scala&gt; <span class="kw">case</span> <span class="kw">object</span> Dead <span class="kw">extends</span> LifeSign
+defined <span class="kw">object</span> Dead</code></pre></div>
+<p>Case objects are a common solution to creating an enumeration in Scala.</p>
+<p>We can now generate samples</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">def</span> lifesign: Gen[LifeSign] = <span class="fu">oneOf</span>(Dead, Alive)
+lifesign: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[LifeSign]
 
-scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
+scala&gt; lifesign.<span class="fu">sample</span>
+res0: Option[LifeSign] = Some(Alive)
 
-scala&gt; <span class="kw">val</span> lastnames = Gen.<span class="fu">surname</span>
-lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@448cb3d3
+scala&gt; lifesign.<span class="fu">sample</span>
+res1: Option[LifeSign] = Some(Alive)
 
-scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Smith
-
-scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Wood
-
-scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Porter</code></pre></div>
-<p>These meet the requirement that the data that is generated is plausible, but using this method the data is not repeatable. If the console is restarted and another surname is generated:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-
-scala&gt; <span class="kw">val</span> lastnames = Gen.<span class="fu">surname</span>
-lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@448cb3d3
-
-scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Brooks</code></pre></div>
-<p>The surnames generated will be different.</p>
-<p>How can we ensure that the same names are generated on demand? We can use the <code>seeded</code> method rather than the <code>sample</code> method:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-
-scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@3f7dd0ac
-
-scala&gt; names.<span class="fu">seeded</span>(1L).<span class="fu">foreach</span>{println}
-Charlotte
-
-scala&gt; names.<span class="fu">seeded</span>(2L).<span class="fu">foreach</span>{println}
-Isaiah
-
-scala&gt; names.<span class="fu">seeded</span>(12874638L).<span class="fu">foreach</span>{println}
-Noah</code></pre></div>
-<p>Even if the console is restarted, <code>seeded(2L)</code> will always return &quot;Isaiha&quot;:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-
-scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@1daceb04
-
-scala&gt; names.<span class="fu">seeded</span>(2L).<span class="fu">foreach</span>{println}
-Isaiah</code></pre></div>
-<p>This leads to an important difference when generating a collection of names. If we want each one to be random, the sample method has to be called for each one, and each time it will give an arbitrary answer:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-
-scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-
-scala&gt; <span class="kw">val</span> randomNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; names.<span class="fu">sample</span>.<span class="fu">get</span>}
-randomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Jayden, Brooklyn, Addison, Owen, Gabriel)
-
-scala&gt; <span class="kw">val</span> moreRandomNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; names.<span class="fu">sample</span>.<span class="fu">get</span>}
-moreRandomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Christian, Grayson, Mia, Arianna, Layla)</code></pre></div>
-<p>But if we want to generate the same collection of names each time, we have to use <code>seeded</code> with the same inputs:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> org.<span class="fu">scalacheck</span>._
-<span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
-
-<span class="kw">val</span> seededNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; name.<span class="fu">seeded</span>(x.<span class="fu">toLong</span>).<span class="fu">get</span>}
-<span class="kw">val</span> moreSeededNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; name.<span class="fu">seeded</span>(x.<span class="fu">toLong</span>).<span class="fu">get</span>}</code></pre></div>
-<p>Note that the integer <code>x</code> has to be explicitly converted into a long to make this work.</p>
-<p>There are a variety of additional data generators available covering emails, national insurance numbers (NINOs), uk addresses, and many more. The library also allows strings that meet arbitrary patterns to be created. These are covered in the following section.</p>
+scala&gt; lifesign.<span class="fu">sample</span>
+res2: Option[LifeSign] = Some(Alive)</code></pre></div>
             </div>
     </div>
   </div>

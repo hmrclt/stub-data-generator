@@ -60,16 +60,16 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> boy = Gen.<span class="fu">forename</span>(Male)
-boy: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@<span class="fl">357e3923</span>
+boy: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@<span class="fl">50e29971</span>
 
 scala&gt; <span class="kw">val</span> girl = Gen.<span class="fu">forename</span>(Female)
-girl: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@1fff53d0
+girl: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@7f7f1dde
 
 scala&gt; s<span class="st">&quot;${boy.sample.get} likes ${girl.sample.get}&quot;</span>
-res0: String = Brayden likes Aaliyah
+res0: String = Michael likes Madison
 
 scala&gt; s<span class="st">&quot;${girl.sample.get} likes ${boy.sample.get}&quot;</span>
-res1: String = Camilla likes Brayden</code></pre></div>
+res1: String = Isabella likes Aiden</code></pre></div>
 <h2 id="email-addresses">Email addresses</h2>
 <p>Email addresses can be produced on demand:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -87,17 +87,17 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> firstNames = Gen.<span class="fu">forename</span>
-firstNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@56aa3f8e
+firstNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@1a0e325f
 
 scala&gt; <span class="kw">val</span> lastNames = Gen.<span class="fu">surname</span>
-lastNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@5f9288a3
+lastNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@448cb3d3
 
 scala&gt; <span class="co">//get a single first and last name</span>
      | <span class="kw">val</span> f = firstNames.<span class="fu">sample</span>.<span class="fu">get</span>
-f: String = Mason
+f: String = Eli
 
 scala&gt; <span class="kw">val</span> l = lastNames.<span class="fu">sample</span>.<span class="fu">get</span>
-l: String = Howard
+l: String = Murray
 
 scala&gt; <span class="co">//To be supplied</span>
      | <span class="co">//generate multiple emails based on that first and last name</span>
@@ -113,10 +113,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> dates = Gen.<span class="fu">date</span>
-dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@1315c246
+dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@2bfc0060
 
 scala&gt; dates.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-<span class="dv">1994</span>-<span class="dv">02</span>-<span class="dv">27</span></code></pre></div>
+<span class="dv">1982</span>-<span class="dv">01</span>-<span class="dv">19</span></code></pre></div>
 <p>For dates in a wider range, simply supply the beginning and end year - these are inclusive so that if the firts year is 1935 and the end year is 2018, dates in either 1935 or 2018 could be generated.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -125,10 +125,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> dates = Gen.<span class="fu">date</span>(<span class="dv">1935</span>, <span class="dv">2018</span>)
-dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@3b8c6362
+dates: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[java.<span class="fu">time</span>.<span class="fu">LocalDate</span>] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@58f28f0f
 
 scala&gt; dates.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-<span class="dv">1968</span>-<span class="dv">10</span>-<span class="dv">02</span></code></pre></div>
+<span class="dv">1993</span>-<span class="dv">11</span>-<span class="dv">11</span></code></pre></div>
 <h2 id="uk-addresses">UK Addresses</h2>
 <p>The addresses are currently uk personal addresses. The <code>sample</code> method has a type of <code>Option[List[String]]</code>, so demontrating it needs a <code>get</code> and a <code>map</code>.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -138,13 +138,13 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> addresses = Gen.<span class="fu">ukAddress</span>
-addresses: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[List[String]] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@4d5f2bb1
+addresses: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[List[String]] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@25dcbf26
 
 scala&gt; addresses.<span class="fu">sample</span>.<span class="fu">get</span>.<span class="fu">map</span>{println}
-100B
-Castle Bolton
-Milton Keynes
-MK45 1AP
+<span class="dv">39</span>
+Carrickreagh Gardens
+Cleveland
+TS93 5HG
 res11: List[Unit] = List((), (), (), ())</code></pre></div>
 <h2 id="postcodes">Postcodes</h2>
 <p>It is sometimes useful to be able to produce a postcode directly. The postcode generator can be used for this:</p>
@@ -155,10 +155,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> postcodes = Gen.<span class="fu">postcode</span>
-postcodes: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@765dfe1
+postcodes: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@34029c74
 
 scala&gt; postcodes.<span class="fu">sample</span>.<span class="fu">get</span>
-res12: String = IG74 1MM</code></pre></div>
+res12: String = NG11 1PK</code></pre></div>
 <h2 id="patterns">Patterns</h2>
 <p>Business data often uses reference numbers for identification and other purposes. The <strong>stub-data-generator</strong> can generate arbitrary string patterns for this. It is also capable of generating other types if necessary.</p>
 <p>Patterns generate a finite list of data so they are generally accessed using the usual access methods such as <code>head</code>, <code>tail</code>, or accessed via an index. As usual if an index is greater than or equal to the <code>size</code> an exception will be thrown.</p>
@@ -170,7 +170,7 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> patterns = pattern<span class="st">&quot;Z Z&quot;</span>
-patterns: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@56f700e
+patterns: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@3c46c7d
 
 scala&gt; patterns.<span class="fu">head</span>
 res13: String = A A
@@ -179,7 +179,7 @@ scala&gt; <span class="fu">patterns</span>(35L)
 res14: String = J B
 
 scala&gt; patterns.<span class="fu">gen</span>.<span class="fu">sample</span>
-res15: Option[String] = Some(Y N)</code></pre></div>
+res15: Option[String] = Some(S Z)</code></pre></div>
 <p>Patterns are present in the library as string operators, similar to Saca's <code>s&quot;…&quot;</code> and <code>r&quot;…&quot;</code> The characters of the string generate the patterns as follows:</p>
 <ol style="list-style-type: decimal">
 <li>A lower case letter will create patterns from 'a' up to and including the specified letter. So 'c' will generate 'a' or 'b' or 'c'.</li>
@@ -195,10 +195,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> patterns = Gen.<span class="fu">pattern</span>(Seq({<span class="dv">0</span> to <span class="dv">100</span>}.<span class="fu">filter</span>(_ % <span class="dv">2</span> == <span class="dv">0</span>)))
-patterns: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[Seq[Int]]{<span class="kw">val</span> size: Long} = hmrc.<span class="fu">smartstub</span>.<span class="fu">Pattern</span>$$anon$<span class="dv">1</span>@1982fa86
+patterns: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[Seq[Int]]{<span class="kw">val</span> size: Long} = hmrc.<span class="fu">smartstub</span>.<span class="fu">Pattern</span>$$anon$<span class="dv">1</span>@867b72a
 
 scala&gt; patterns.<span class="fu">gen</span>.<span class="fu">sample</span>.<span class="fu">get</span>.<span class="fu">head</span>
-res16: Int = <span class="dv">44</span></code></pre></div>
+res16: Int = <span class="dv">90</span></code></pre></div>
 <h2 id="composite-data">Composite data</h2>
 <p>Usually we are dealing with collections of very simple data to produce objects representing for example, businesses, people, organizations, and so on. In Scala, such collections are almost always represented by case classes. We can easily produce plausible examples of data in the case class form because the generators can be incuded in Scala's for comprehensions (e.g. they are monads.).</p>
 <p>Note how in the following example, the result of the forename generator is dependant on the result of the gender generator:</p>
@@ -222,10 +222,10 @@ scala&gt; <span class="kw">val</span> people: Gen[Person] = <span class="kw">for
      | dob &lt;- Gen.<span class="fu">date</span>(<span class="dv">1935</span>, <span class="dv">2000</span>)
      | address &lt;- Gen.<span class="fu">ukAddress</span>
      | } <span class="kw">yield</span> <span class="fu">Person</span>(gender, s<span class="st">&quot;$fname $sname&quot;</span>, dob, address)
-people: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[Person] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@6db2d83b
+people: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[Person] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@75b01e01
 
 scala&gt; people.<span class="fu">sample</span>.<span class="fu">get</span>
-res17: Person = <span class="fu">Person</span>(Male,Jackson Lack,<span class="dv">1994</span>-<span class="dv">01</span>-<span class="dv">28</span>,List(<span class="dv">45</span>, Millenium Park Walk, Northampton, NN04 7JD))</code></pre></div>
+res17: Person = <span class="fu">Person</span>(Male,Jayden Clarke,<span class="dv">1956</span>-<span class="dv">06</span>-<span class="dv">26</span>,List(<span class="dv">12</span>, Fitzwilliam Avenue, Lancaster, LA29 6TA))</code></pre></div>
             </div>
     </div>
   </div>
