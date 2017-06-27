@@ -20,8 +20,7 @@ trait Addresses extends Any {
     street <- streetNames
     postcode <- postcodeSuffix
   } yield List(
-    addressNumber.toString() ++ addressLetter.getOrElse(""),
-    street,
+    addressNumber.toString() ++ addressLetter.getOrElse("") ++ " " ++ street,
     town,
     codePrefix ++ postcode
   )

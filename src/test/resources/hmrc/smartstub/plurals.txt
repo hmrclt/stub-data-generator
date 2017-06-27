@@ -1,0 +1,101 @@
+# From https://en.oxforddictionaries.com/spelling/plurals-of-nouns
+berry berries
+activity activities
+daisy daisies
+church churches
+bus buses
+fox foxes
+stomach stomachs
+epoch epochs
+knife knives
+half halves
+scarf scarves
+chief chiefs
+spoof spoofs
+solo solos
+zero zeros
+avocado avocados
+studio studios
+zoo zoos
+embryo embryos
+buffalo buffaloes
+domino dominoes
+echo echoes
+embargo embargoes
+cheese cheeses
+hero heroes
+house houses
+mosquito mosquitoes
+potato potatoes
+tomato tomatoes
+torpedo torpedoes
+veto vetoes
+banjo banjos
+banjo banjoes
+cargo cargos
+cargo cargoes
+flamingo flamingos
+flamingo flamingoes
+ghetto ghettos
+ghetto ghettoes
+halo halos
+halo haloes
+mango mangos
+mango mangoes
+memento mementos
+memento mementoes
+motto mottos
+motto mottoes
+tornado tornados
+tornado tornadoes
+tuxedo tuxedos
+tuxedo tuxedoes
+volcano volcanos
+volcano volcanoes
+antenna antennae
+antenna antennas
+appendix appendices
+appendix appendixes
+cactus cacti
+cactus cactuses
+curriculum curricula
+curriculum curriculums
+formula formulae
+formula formulas
+index indices
+index indexes
+millennium millennia
+millennium millenniums
+referendum referenda
+referendum referendums
+stadium stadia
+stadium stadiums
+# terminus termini
+# terminus terminuses
+# thesaurus thesauri
+# thesaurus thesauruses
+# vortex vortices
+# vortex vortexes
+# alga algae
+# alumnus alumni
+# larva larvae
+# crisis crises
+# analysis analyses
+# neurosis neuroses
+# bureau bureaux
+# bureau bureaus
+# chateau chateaux
+# chateau chateaus
+# gateau gateaux
+# gateau gateaus
+# trousseau trousseaux
+# trousseau trousseaus
+# espresso espressi
+# espresso espressos
+# pizza pizze
+# pizza pizzas
+# risotto risotti
+# risotto risottos
+# fresco freschi
+# fresco frescos
+# fresco frescoes
