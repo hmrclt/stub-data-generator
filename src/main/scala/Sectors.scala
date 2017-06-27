@@ -1,6 +1,5 @@
 package hmrc.smartstub
 
-import hmrc.smartstub.Loader
 import org.scalacheck.Gen
 import org.scalacheck.Gen.oneOf
 
@@ -33,5 +32,4 @@ object Sectors extends Loader {
     Production -> loadFile("sectors-production-industries.txt"),
     Raw -> loadFile("sectors-raw-materials.txt")
   )
-
 }

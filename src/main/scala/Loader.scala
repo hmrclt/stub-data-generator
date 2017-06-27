@@ -25,7 +25,7 @@ trait Loader extends Any {
     val raw = scala.io.Source.fromURL(resource).getLines
     val uncommented = raw.filterNot(_.startsWith("#"))
     val data = uncommented.map{ line =>
-      val splitLine = line.split(",")
+      val splitLine = line.replaceAll(" ", "").split(",")
       (splitLine.init, splitLine.last.toInt)
     }.filter(_._1.startsWith(selection)).map{ case (fst,snd) => 
         (snd, const(fst.drop(selection.size).head))
