@@ -18,6 +18,7 @@ package object smartstub
       with Addresses
       with Temporal
       with Pattern
+      with Sectors
   {
     def boolean: Gen[Boolean] = Gen.oneOf(true, false)
   }

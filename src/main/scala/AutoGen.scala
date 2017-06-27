@@ -38,7 +38,8 @@ object AutoGen {
       case "surname" => Gen.surname
       case "gender" => Gen.oneOf("male", "female")
       case "nino" => Enumerable.instances.ninoEnum.gen
-      case "utr" => Enumerable.instances.utrEnum.gen        
+      case "utr" => Enumerable.instances.utrEnum.gen
+      case "sector" => Gen.sector
       case _ => Gen.alphaStr
     }
   )
