@@ -1,35 +1,51 @@
 package hmrc.smartstub
 
 import org.scalacheck.Gen
-import org.scalacheck.Gen.oneOf
 
 /**
   * Created by matt on 27/06/17.
   */
 
-sealed trait Industry
-case object Service extends Industry
-case object Raw extends Industry
-case object Production extends Industry
-
-
 trait Sectors extends Any {
 
-  def _sector = Sectors._sector
+  def sector: Gen[String] = Sectors._sector
 
-  def industry: Gen[Industry] = oneOf(Service, Raw, Production)
-  def sector(): Gen[String] = for {
-    g <- industry
-    v <- _sector(g)
-  } yield (v)
-  def sector(g: Industry): Gen[String] = _sector(g)
+  def industry(): Gen[String] = Sectors._industry
 
+  def industry(get: String): Gen[String] = {
+    Sectors._industry(get)
+  }
+
+  def job(sector: String, industry: String): Gen[String] = {
+    Sectors._job(sector, industry)
+  }
+
+  def job: Gen[String] = {
+    Sectors._job
+  }
+
+  // TODO this is redundant unless I can find a way to pass parameters from AutoGen
+  def industryForJob(job: String): Gen[String] = {
+    Sectors._industryForJob(job)
+  }
 }
 
 object Sectors extends Loader {
-  lazy val _sector: Map[Industry, Gen[String]] = Map(
-    Service -> loadFile("sectors-service-industries.txt"),
-    Production -> loadFile("sectors-production-industries.txt"),
-    Raw -> loadFile("sectors-raw-materials.txt")
-  )
+
+  lazy val _sector: Gen[String] = hf(0)
+  lazy val _industry: Gen[String] = hf(1)
+  lazy val _job: Gen[String] = hf(2)
+  val hf = HierarchicalFile("sectors-hierarchical.txt")
+
+  def _industry(sector: String): Gen[String] = {
+    hf(sector)
+  }
+
+  def _job(sector: String, industry: String): Gen[String] = {
+    hf(sector, industry)
+  }
+
+  def _industryForJob(job: String): Gen[String] = {
+    hf(Backwards, job)
+  }
 }
