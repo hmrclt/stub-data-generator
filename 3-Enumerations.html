@@ -78,10 +78,10 @@ scala&gt; lifesign.<span class="fu">sample</span>
 res0: Option[LifeSign] = Some(Alive)
 
 scala&gt; lifesign.<span class="fu">sample</span>
-res1: Option[LifeSign] = Some(Dead)
+res1: Option[LifeSign] = Some(Alive)
 
 scala&gt; lifesign.<span class="fu">sample</span>
-res2: Option[LifeSign] = Some(Alive)</code></pre></div>
+res2: Option[LifeSign] = Some(Dead)</code></pre></div>
 <p>The built in <code>Gender</code> enumeration is an example of this, where Gender can be either <code>Male</code> or <code>Female</code>. You can sample Gender in the usual way:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">def</span> gender: Gen[Gender] = <span class="fu">oneOf</span>(Male, Female)
 gender: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>]
@@ -107,7 +107,7 @@ res5: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</spa
      |   }
      |   <span class="kw">val</span> size = <span class="dv">2</span>
      | }
-lse: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[LifeSign]{<span class="kw">val</span> size: Long} = $anon$<span class="dv">1</span>@51a9a0c6</code></pre></div>
+lse: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[LifeSign]{<span class="kw">val</span> size: Long} = $anon$<span class="dv">1</span>@2fee1ccc</code></pre></div>
 <p>The lse value provides a <code>get</code> that takes a long and give a <code>Lifesign</code> and an asLong that goes in teh other direction. It can be used as follows:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; lse.<span class="fu">gen</span>.<span class="fu">sample</span>
 res6: Option[LifeSign] = Some(Alive)
@@ -118,7 +118,7 @@ res7: Option[LifeSign] = Some(Dead)</code></pre></div>
 <p>This is no accident. One of the ideas behind the generator is that although data is generated randomly, it should be possible to take a numeric seed and get a particular example of data. In the Lifesign case above, 0 takes you to 'Alive' and 1 to 'Dead'.</p>
 <p>The same approach can be taken with patterns.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">val</span> windowTaxRef = pattern<span class="st">&quot;BZZ-99999C&quot;</span>
-windowTaxRef: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@343fa144
+windowTaxRef: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@bd302b0
 
 scala&gt; windowTaxRef.<span class="fu">head</span>
 res8: String = AAA-00000A
