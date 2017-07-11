@@ -78,7 +78,7 @@ scala&gt; lifesign.<span class="fu">sample</span>
 res0: Option[LifeSign] = Some(Alive)
 
 scala&gt; lifesign.<span class="fu">sample</span>
-res1: Option[LifeSign] = Some(Alive)
+res1: Option[LifeSign] = Some(Dead)
 
 scala&gt; lifesign.<span class="fu">sample</span>
 res2: Option[LifeSign] = Some(Dead)</code></pre></div>
@@ -90,10 +90,10 @@ scala&gt; gender.<span class="fu">sample</span>
 res3: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>] = Some(Male)
 
 scala&gt; gender.<span class="fu">sample</span>
-res4: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>] = Some(Male)
+res4: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>] = Some(Female)
 
 scala&gt; gender.<span class="fu">sample</span>
-res5: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>] = Some(Male)</code></pre></div>
+res5: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</span>] = Some(Female)</code></pre></div>
 <p>However, It is possible to take another approach to generating data from a collection of possible choices. The <strong>smart-stub-generator</strong> has a class called <code>Enumerable</code> (nothing to do with enumerations - it means countable in this context). If you create an implicit object of this class that provides <code>get</code> and <code>asLong</code> functions you can create data using a different approach.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">implicit</span> <span class="kw">val</span> lse = <span class="kw">new</span> Enumerable[LifeSign] { 
      |   <span class="kw">override</span> <span class="kw">def</span> <span class="fu">get</span>(i: Long) = i <span class="kw">match</span> { 
@@ -107,10 +107,10 @@ res5: Option[hmrc.<span class="fu">smartstub</span>.<span class="fu">Gender</spa
      |   }
      |   <span class="kw">val</span> size = <span class="dv">2</span>
      | }
-lse: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[LifeSign]{<span class="kw">val</span> size: Long} = $anon$<span class="dv">1</span>@2fee1ccc</code></pre></div>
+lse: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[LifeSign]{<span class="kw">val</span> size: Long} = $anon$<span class="dv">1</span>@7ed9aab1</code></pre></div>
 <p>The lse value provides a <code>get</code> that takes a long and give a <code>Lifesign</code> and an asLong that goes in teh other direction. It can be used as follows:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; lse.<span class="fu">gen</span>.<span class="fu">sample</span>
-res6: Option[LifeSign] = Some(Alive)
+res6: Option[LifeSign] = Some(Dead)
 
 scala&gt; lse.<span class="fu">gen</span>.<span class="fu">sample</span>
 res7: Option[LifeSign] = Some(Dead)</code></pre></div>
@@ -118,7 +118,7 @@ res7: Option[LifeSign] = Some(Dead)</code></pre></div>
 <p>This is no accident. One of the ideas behind the generator is that although data is generated randomly, it should be possible to take a numeric seed and get a particular example of data. In the Lifesign case above, 0 takes you to 'Alive' and 1 to 'Dead'.</p>
 <p>The same approach can be taken with patterns.</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">val</span> windowTaxRef = pattern<span class="st">&quot;BZZ-99999C&quot;</span>
-windowTaxRef: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@bd302b0
+windowTaxRef: hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>[String] = hmrc.<span class="fu">smartstub</span>.<span class="fu">Enumerable</span>$$anon$<span class="dv">3</span>@60b092ff
 
 scala&gt; windowTaxRef.<span class="fu">head</span>
 res8: String = AAA-00000A
@@ -132,9 +132,10 @@ res10: Long = <span class="dv">405600000</span>
 scala&gt; <span class="kw">val</span> thousandthCustomer = windowTaxRef.<span class="fu">get</span>(1000L)
 thousandthCustomer: Option[String] = Some(AGT-00000A)
 
-scala&gt; <span class="co">//windowTaxRef.asLong(thousandthCustomer)</span></code></pre></div>
+scala&gt; windowTaxRef.<span class="fu">asLong</span>(thousandthCustomer.<span class="fu">get</span>)
+res11: Long = <span class="dv">1000</span></code></pre></div>
 <p>…using <code>get</code> returns an option, but you can also express this in a more succinct but unsafe fashion as:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">     | <span class="kw">val</span> thousandthCustomer = <span class="fu">windowTaxRef</span>(1000L)
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">val</span> thousandthCustomer = <span class="fu">windowTaxRef</span>(1000L)
 thousandthCustomer: String = AGT-00000A</code></pre></div>
             </div>
     </div>

@@ -61,10 +61,10 @@ $ <span class="ex">sbt</span> console
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 
 scala&gt; <span class="kw">val</span> personName = Gen.<span class="fu">alphaStr</span>
-personName: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@69542a97
+personName: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@42679cbc
 
 scala&gt; personName.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-dx</code></pre></div>
+ddikQengionpVkzwrbaXmwQhRpfjgrhidhfjkhZsbuyuZrp</code></pre></div>
 <p>This is ideal for producing tests with the intent of stressing our code since the strings that are produced are the kind of names that we would not normally use. They exercise the code in the presence of really unusual names (for example names hundreds of characters long, or names with punctuation in them).</p>
 <p>From the perspective of rapidly creating a stub that has to produce <em>plausible</em> data, ScalaCheck is limited not ideal though. We want to construct names that look like they might represent a real person so that we can either demonstrate our work or visualize it.</p>
 <p>We would also like to be able to recreate data on demand. ScalaCheck will produce a different alphanumeric string each time it is asked to give a sample. So if you were to restart sbt and create another personName you would get an entirely different string:</p>
@@ -72,10 +72,10 @@ dx</code></pre></div>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 
 scala&gt; <span class="kw">val</span> personNames = Gen.<span class="fu">alphaStr</span>
-personNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@5321f56c
+personNames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@279210d5
 
 scala&gt; personNames.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-udcznUwibfpagjiuoydDhyncahtocgbLhmebzylqtuoQmuwvySyxckcqauuoyydvjjmlozljvh</code></pre></div>
+DUkbiFvkkUsyrblbnsbeusgoptiuWotwqivRcwsxWueTlqfguqOtziwztkk</code></pre></div>
 <p>The stub generator addresses both of these issues. In order to try it, you need to add the library dependancy to the build.sbt file:</p>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="bu">echo</span> <span class="st">'libraryDependencies += &quot;hmrc&quot; %% &quot;stub-data-generator&quot; % &quot;0.1.0&quot;'</span> <span class="op">&gt;&gt;</span> build.sbt</code></pre></div>
 <p>(Note the use of the <code>&gt;&gt;</code> in this command, it appends text to a file.)</p>
@@ -89,16 +89,16 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@303ecdcf
+names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@3d23fa1c
 
 scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Addison
+Mila
 
 scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Jayce
+Aria
 
 scala&gt; names.<span class="fu">sample</span>.<span class="fu">foreach</span>(println)
-Alexander</code></pre></div>
+William</code></pre></div>
 <p>We can generate surnames in a similar fashion:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -107,16 +107,16 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> lastnames = Gen.<span class="fu">surname</span>
-lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@6f275bca
+lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@7ff3a374
 
 scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Little
+Kaur
 
 scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Hall
+Tate
 
 scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Holt</code></pre></div>
+Taylor</code></pre></div>
 <p>These meet the requirement that the data that is generated is plausible, but using this method the data is not repeatable. If the console is restarted and another surname is generated:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -125,10 +125,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> lastnames = Gen.<span class="fu">surname</span>
-lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@6f275bca
+lastnames: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">1</span>@7ff3a374
 
 scala&gt; lastnames.<span class="fu">sample</span>.<span class="fu">foreach</span>{println}
-Lewis</code></pre></div>
+Braham</code></pre></div>
 <p>The surnames generated will be different.</p>
 <p>How can we ensure that the same names are generated on demand? We can use the <code>seeded</code> method rather than the <code>sample</code> method:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">scala&gt; <span class="kw">import</span> org.<span class="fu">scalacheck</span>._
@@ -138,7 +138,7 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@116e6c60
+names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@7968bd23
 
 scala&gt; names.<span class="fu">seeded</span>(1L).<span class="fu">foreach</span>{println}
 Charlotte
@@ -156,7 +156,7 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> names = Gen.<span class="fu">forename</span>
-names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@789fd43a
+names: org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>[String] = org.<span class="fu">scalacheck</span>.<span class="fu">Gen</span>$$anon$<span class="dv">3</span>@177af0c3
 
 scala&gt; names.<span class="fu">seeded</span>(2L).<span class="fu">foreach</span>{println}
 Isaiah</code></pre></div>
@@ -168,10 +168,10 @@ scala&gt; <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>.
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
 
 scala&gt; <span class="kw">val</span> randomNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; names.<span class="fu">sample</span>.<span class="fu">get</span>}
-randomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Alexander, Olivia, Victoria, Daniel, William)
+randomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Landon, Jayden, Oliver, Charlotte, Leah)
 
 scala&gt; <span class="kw">val</span> moreRandomNames = (<span class="dv">1</span> to <span class="dv">5</span>).<span class="fu">map</span>{x =&gt; names.<span class="fu">sample</span>.<span class="fu">get</span>}
-moreRandomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Benjamin, Ryan, Caleb, Logan, Avery)</code></pre></div>
+moreRandomNames: scala.<span class="fu">collection</span>.<span class="fu">immutable</span>.<span class="fu">IndexedSeq</span>[String] = Vector(Adeline, Adeline, Grace, Layla, Nora)</code></pre></div>
 <p>But if we want to generate the same collection of names each time, we have to use <code>seeded</code> with the same inputs:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> org.<span class="fu">scalacheck</span>._
 <span class="kw">import</span> hmrc.<span class="fu">smartstub</span>._
