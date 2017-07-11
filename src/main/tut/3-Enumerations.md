@@ -73,7 +73,7 @@ windowTaxRef.head
 windowTaxRef.last
 windowTaxRef.size
 val thousandthCustomer = windowTaxRef.get(1000L)
-//windowTaxRef.asLong(thousandthCustomer)
+windowTaxRef.asLong(thousandthCustomer.get)
 ```
 
 …using ```get``` returns an option, but you can also express this in a more succinct but unsafe fashion as:
