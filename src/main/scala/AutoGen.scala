@@ -1,9 +1,8 @@
 package hmrc.smartstub
 
+import org.scalacheck._
 import shapeless._
 import shapeless.labelled._
-import org.scalacheck._
-import hmrc.smartstub._
 
 trait GenProvider[A] {
   def gen: Gen[A] = genN("")
@@ -38,7 +37,10 @@ object AutoGen {
       case "surname" => Gen.surname
       case "gender" => Gen.oneOf("male", "female")
       case "nino" => Enumerable.instances.ninoEnum.gen
-      case "utr" => Enumerable.instances.utrEnum.gen        
+      case "utr" => Enumerable.instances.utrEnum.gen
+      case "sector" => Gen.sector
+      case "industry" => Gen.industry()
+      case "job" => Gen.job
       case _ => Gen.alphaStr
     }
   )

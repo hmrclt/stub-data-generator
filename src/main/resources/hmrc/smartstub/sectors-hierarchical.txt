@@ -1,0 +1,28 @@
+Service,Public Services,Fireman,50
+Service,Financial Services,Mortgage Advisor,10
+Service,Health Care,Nurse,100
+Service,Housing,Estate Agent,20
+Service,Education,Teacher,100
+Service,Transportation,Train Driver,30
+Service,Automative,Mechanic,30
+Service,Imports/Exports,Warehouse Operative,50
+Service,Aerospace/Defence,Pilot,30
+Service,Technology/Science,Research Fellow,20
+Service,Food/Beverage,Chef,25
+Service,Telecoms/Media,Engineer,40
+Service,Pharmaceuticals/Biotechnology,Lab Tech,55
+Service,Consumer Goods/Services,Sales Assistant,43
+Service,Printing/Publishing,Editor,10
+Raw Materials,Agriculture,Farmer,3
+Raw Materials,Agriculture,Shepherd,1
+Raw Materials,Agriculture,Milkmaid,2
+Production,Manufacturing,Factory Worker,200
+Production,Manufacturing,Tool maker,100
+Production,Chemicals,Chemist,30
+Production,Oil/Gas,Platform Engineer,20
+Production,Mining/Drilling,Miner,7
+Production,Nuclear Power,Operator,2
+Production,Electric Power,Supply Engineer,3
+Production,Utility Services,Water Engineer,5
+Production,Energy,Solar Engineer,8
+Production,Construction,Builder,44
