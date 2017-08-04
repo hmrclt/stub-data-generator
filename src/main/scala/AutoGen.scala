@@ -39,7 +39,8 @@ object AutoGen {
         Gen.ukAddress.map{_.mkString(", ")}
       case "gender" | "sex" => Gen.oneOf("male", "female")
       case "nino" => Enumerable.instances.ninoEnum.gen
-      case "utr" => Enumerable.instances.utrEnum.gen        
+      case "utr" => Enumerable.instances.utrEnum.gen
+      case "address" => Gen.ukAddress.map{_.mkString(", ")}
       case _ => Gen.alphaStr
     }
   )
@@ -52,8 +53,8 @@ object AutoGen {
     }
 
   implicit def providerList[A](implicit inner: GenProvider[A]): GenProvider[List[A]]  =
-    instance { x => 
-      Gen.listOf(inner.genN(x))
+    instance { x =>
+      Gen.choose(1,5).flatMap{q => Gen.listOfN(q, inner.genN(Singularise(x)))}
     }
 
   implicit def providerSeq[A](implicit inner: GenProvider[A]): GenProvider[Seq[A]]  =
