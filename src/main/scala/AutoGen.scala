@@ -26,27 +26,45 @@ object AutoGen extends LowPriorityGenProviderInstances {
   }
 
   // Named types
-  implicit def providerSeqNamed[A](fieldName: String, s: State)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Seq[A]] =
-    instance(Gen.listOf(inner(fieldName).gen))
+  implicit def providerSeqNamed[A](fieldName: String, s: State)(implicit inner: (String, State) ⇒ (State, GenProvider[A])): (State, GenProvider[Seq[A]]) = {
+   val i = Gen.choose(0,Int.MaxValue)
 
-  implicit def providerSetNamed[A](fieldName: String, s: State)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Set[A]] =
-    instance(Gen.listOf(inner(fieldName).gen).map(_.toSet))
-
-  implicit def providerVectorNamed[A](fieldName: String, s: State)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Vector[A]] =
-    instance(Gen.listOf(inner(fieldName).gen).map(l ⇒l.toVector))
-
-  implicit def providerOptionNamed[A](fieldName: String, s: State)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Option[A]] =
-    instance(Gen.option(inner(fieldName).gen))
-
-  implicit def providerIntNamed(fieldName: String, s: State): GenProvider[Int] = instance ({
-    fieldName.toLowerCase match {
-      case "age" => Gen.choose(1, 80)
-      case _ => Gen.choose(1, 1000)
+    val p = Gen.sized{ i ⇒
+      val q: (State, List[Gen[A]]) = (0 to i).foldLeft(s → List.empty[Gen[A]]){ case ((previousState, list), _) ⇒
+          val (nextState, gen) = inner(fieldName, previousState)
+          nextState -> (gen.gen :: list)
+      }
     }
-  })
 
-  implicit def providerStringNamed(fieldName: String, s: State): (State, GenProvider[String]) = instance ({
+
+    s → instance(Gen.listOf(inner(fieldName, s)._2))
+  }
+
+  implicit def providerSetNamed[A](fieldName: String, s: State)(implicit inner: (String, State) ⇒ (State, GenProvider[A])): (State, GenProvider[Set[A]]) =
+    s → instance(Gen.listOf(inner(fieldName, s).))
+
+  implicit def providerVectorNamed[A](fieldName: String, s: State)(implicit inner: (String, State) ⇒ (State, GenProvider[A])): (State, GenProvider[Vector[A]]) =
+    s → instance(Gen.listOf(inner(fieldName, s).))
+
+
+  implicit def providerOptionNamed[A](fieldName: String, s: State)(implicit inner: (String, State) ⇒ (State, GenProvider[A])): (State, GenProvider[Option[A]]) = {
+    val (nextState, provider) = inner(fieldName)
+    nextState → instance(Gen.option(provider.gen))
+  }
+
+  implicit def providerIntNamed(fieldName: String, s: State): (State, GenProvider[Int]) =
     fieldName.toLowerCase match {
+      case "age" ⇒ s → instance(Gen.choose(1, 80))
+      case _     ⇒ s → instance(Gen.choose(1, 1000))
+    }
+
+  implicit def providerStringNamed(fieldName: String, s: State): (State, GenProvider[String]) =
+    fieldName.toLowerCase match {
+      case "gender" | "sex" ⇒
+        val genderSeed = s.genderSeed.getOrElse(Seed.random())
+        val genderGen = Gen.gender.withPerturb(_ ⇒ genderSeed)
+        s.copy(genderSeed = Some(genderSeed)) → instance(genderGen.map(_.toString.toLowerCase))
+
       case "forename" | "firstname" ⇒
         val genderSeed = s.genderSeed.getOrElse(Seed.random())
         val genderGen = Gen.gender.withPerturb(_ ⇒ genderSeed)
@@ -54,18 +72,17 @@ object AutoGen extends LowPriorityGenProviderInstances {
         s.copy(genderSeed = Some(genderSeed)) → instance(nameGenerator)
 
       case "surname" | "lastname" | "familyname" ⇒ s → instance(Gen.surname)
-      case x if x.toLowerCase.contains("address") ⇒ s → Gen.ukAddress.map{_.mkString(", ")}
-      case "gender" | "sex" => s → Gen.oneOf("male", "female")
-      case "nino" ⇒ s → Enumerable.instances.ninoEnum.gen
-      case "utr" ⇒ s → Enumerable.instances.utrEnum.gen
-      case _ ⇒ s → Gen.alphaStr
+      case x if x.toLowerCase.contains("address") ⇒ s → instance(Gen.ukAddress.map{_.mkString(", ")}
+      case "nino" ⇒ s → instance(Enumerable.instances.ninoEnum.gen)
+      case "utr" ⇒ s → instance(Enumerable.instances.utrEnum.gen)
+      case _ ⇒ s → instance(Gen.alphaStr)
     }
-  })
 
-  implicit def providerBooleanNamed(fieldName: String): GenProvider[Boolean] =
-    instance(Gen.oneOf(true,false))
 
-   implicit def providerUnnamed[A](implicit g: String ⇒ GenProvider[A]): GenProvider[A] = g("")
+  implicit def providerBooleanNamed(fieldName: String, s: State): (State, GenProvider[Boolean]) =
+    s → instance(Gen.oneOf(true,false))
+
+  implicit def providerUnnamed[A](implicit g: String ⇒ GenProvider[A]): GenProvider[A] = g("")
 
 
   // generic instance
@@ -83,12 +100,12 @@ object AutoGen extends LowPriorityGenProviderInstances {
 
   implicit def providerHCons[K <: Symbol, H, T <: HList](s: State)(
     implicit
-   witness: Witness.Aux[K],
-   hGenProvider: Lazy[(String, State) ⇒ (State, GenProvider[H])],
-   tGenProvider: Lazy[State ⇒ GenProvider[T]]
+    witness: Witness.Aux[K],
+    hGenProvider: Lazy[(String, State) ⇒ (State, GenProvider[H])],
+    tGenProvider: Lazy[State ⇒ GenProvider[T]]
   ): GenProvider[FieldType[K,H] :: T] =  {
     val (nextState, gen) = hGenProvider.value(witness.value.name, s)
-    
+
     instance(gen.gen.flatMap { f =>
       tGenProvider.value(nextState).gen.map { t ⇒
         field[K](f) :: t
