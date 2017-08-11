@@ -21,6 +21,10 @@ object AutoGen extends LowPriorityGenProviderInstances {
     override val gen: Gen[A] = f
   }
 
+  implicit def providerUnnamed[A](implicit g: GenProvider[A]): String ⇒ GenProvider[A] = _ ⇒ g
+
+  implicit def providerString: GenProvider[String] = providerStringNamed("")
+
   // Named types
   implicit def providerSeqNamed[A](s: String)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Seq[A]] =
     instance(Gen.listOf(inner(s).gen))
@@ -57,16 +61,13 @@ object AutoGen extends LowPriorityGenProviderInstances {
 
   implicit def providerLocalDate(s: String): GenProvider[LocalDate] = instance({
     s.toLowerCase match {
-      case "dateofbirth" | "dob" | "birthdate" ⇒ Gen.date(LocalDate.of(1900,1,1), LocalDate.now())
-      case _                                   ⇒ Gen.date
+      case "dateofbirth" | "dob" | "birthdate" | "boron" | "birthday" ⇒ Gen.date(LocalDate.of(1900,1,1), LocalDate.now())
+      case _                                                          ⇒ Gen.date
     }
   })
 
   implicit def providerBooleanNamed(s: String): GenProvider[Boolean] =
     instance(Gen.oneOf(true,false))
-
-   implicit def providerUnnamed[A](implicit g: String ⇒ GenProvider[A]): GenProvider[A] = g("")
-
 
   // generic instance
 

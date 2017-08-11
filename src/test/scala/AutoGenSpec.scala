@@ -68,6 +68,20 @@ class AutoGenSpec extends FlatSpec with Checkers with Matchers {
       */
   }
 
+  it should "derive Gen[A] for nested collections of coproducts" in {
+    sealed trait T
+    case object T1 extends T
+    case object T2 extends T
+
+    case class S1(s: Set[T])
+    case class S2(s: Vector[T])
+    case class S3(s: List[T])
+
+    "val gen1 = AutoGen[S1]" should compile
+    "val gen2 = AutoGen[S2]" should compile
+    "val gen3 = AutoGen[S3]" should compile
+  }
+
 
 
 }
