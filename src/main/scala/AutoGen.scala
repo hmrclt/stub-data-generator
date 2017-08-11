@@ -1,12 +1,11 @@
 package uk.gov.hmrc.smartstub
 
-import org.scalacheck._
+import java.time.LocalDate
 
 import shapeless._
 import shapeless.labelled._
+import org.scalacheck._
 import shapeless.ops.nat.ToInt
-
-import java.time.LocalDate
 
 object AutoGen extends LowPriorityGenProviderInstances {
 
@@ -22,8 +21,6 @@ object AutoGen extends LowPriorityGenProviderInstances {
   }
 
   implicit def providerUnnamed[A](implicit g: GenProvider[A]): String ⇒ GenProvider[A] = _ ⇒ g
-
-  implicit def providerString: GenProvider[String] = providerStringNamed("")
 
   // Named types
   implicit def providerSeqNamed[A](s: String)(implicit inner: String ⇒ GenProvider[A]): GenProvider[Seq[A]] =
@@ -122,6 +119,8 @@ object AutoGen extends LowPriorityGenProviderInstances {
 trait LowPriorityGenProviderInstances {
 
   import AutoGen.{GenProvider, instance}
+
+  implicit def providerUnnamed2[A](implicit g: String ⇒ GenProvider[A]): GenProvider[A] = g("")
 
   implicit def providerHCons2[K <: Symbol, H, T <: HList]
   (implicit

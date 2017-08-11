@@ -82,6 +82,13 @@ class AutoGenSpec extends FlatSpec with Checkers with Matchers {
     "val gen3 = AutoGen[S3]" should compile
   }
 
+  it should "derive Gen[A] for LocalDate" in {
+    import java.time.LocalDate
+    case class D(date: LocalDate)
+    "val gen1 = AutoGen[D]" should compile
+    "val gen2 = AutoGen[LocalDate]" should compile
+  }
+
 
 
 }
