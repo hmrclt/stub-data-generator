@@ -25,6 +25,12 @@ package object smartstub
       with Companies
   {
     def boolean: Gen[Boolean] = Gen.oneOf(true, false)
+
+    def age: Gen[Int] = Gen.frequency(
+      80 → Gen.choose(0,65),
+      15 → Gen.choose(66,80),
+      5  → Gen.choose(81,101)
+    )
   }
 
   implicit val longEnum = Enumerable.instances.longEnum
