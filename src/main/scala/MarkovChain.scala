@@ -2,13 +2,18 @@ package hmrc.smartstub
 
 import org.scalacheck.Gen
 import org.scalacheck.Gen._
+import cats.implicits._
+import org.scalacheck.support.cats._
 
-/*
-A MarkovChain implementation that will return a plausible/probable next item given a seed sub-sequence
-from the original data. Ideally the seed should be windowSize length but it will return something based
-on any seed (including empty) as long as the non-empty seed exists in the original data.
-
-If a terminus is supplied it will use this as seed whenever an empty seed is supplied.
+/* 
+ * A MarkovChain implementation that will return a plausible/probable
+ * next item given a seed sub-sequence from the original data. Ideally
+ * the seed should be windowSize length but it will return something
+ * based on any seed (including empty) as long as the non-empty seed
+ * exists in the original data. 
+ * 
+ * If a terminus is supplied it will use this as seed whenever an
+ * empty seed is supplied.
  */
 class MarkovChain[A](val data: Seq[A], val windowSize: Int, val terminus: Seq[A] = Seq.empty[A]) {
 
@@ -22,6 +27,12 @@ class MarkovChain[A](val data: Seq[A], val windowSize: Int, val terminus: Seq[A]
     } else {
       multimap(1).keySet.head
     }
+  }
+
+  def sized(numElems: Int): Gen[List[A]] = {
+    repeatM(next().map(_.pure[List]), {
+      acc: List[A] => next(trimSeed(acc)).map { acc :+ _} 
+    }, numElems)
   }
 
   private def markov(ws: Int): Map[Seq[A], Gen[A]] = {
@@ -41,15 +52,6 @@ class MarkovChain[A](val data: Seq[A], val windowSize: Int, val terminus: Seq[A]
       seed
     }
   }
-
-//  def next(seed: Seq[A] = start): A = {
-//    val last = trimSeed(seed)
-//    try {
-//      multimap(last.size)(last).sample.get
-//    } catch {
-//      case e: java.util.NoSuchElementException => throw new UnknownMarkovSeedException(e, last.mkString(", "))
-//    }
-//  }
 
   def next(seed: Seq[A] = start): Gen[A] = {
     val last = trimSeed(seed)
