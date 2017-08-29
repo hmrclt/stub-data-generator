@@ -8,6 +8,6 @@ the appearance of randomness but is completely deterministic.
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 val personName = Gen.forename.seeded(1L).get
 ```

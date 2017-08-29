@@ -1,4 +1,4 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import scala.language.implicitConversions
 
@@ -60,13 +60,30 @@ object Enumerable {
       val size = Long.MaxValue
     }
 
-    type Nino = String
-    implicit val ninoEnum: Enumerable[Nino] = pattern"ZZ 99 99 99 Z"
+    implicit val ninoEnum: Enumerable[String] = pattern"ZZ 99 99 99 D"
+    implicit val ninoEnumNoSpaces: Enumerable[String] = pattern"ZZ999999D"
 
-    type Utr = String
-    implicit val utrEnum: Enumerable[Utr] = pattern"99999 99999"
+    implicit val utrEnum: Enumerable[String] = {
+      def checkDigit(in: String): Char = {
+        val checkString = "21987654321"
+        val weights = List(6, 7, 8, 9, 10, 5, 4, 3, 2)
+        val pos = {weights zip in}.map {
+          case (weight, char) => weight * char.asDigit
+        }.sum % checkString.size
+        checkString(pos)
+      }
 
-    type EmployerReference = String
-    implicit val empRefEnum: Enumerable[EmployerReference] = pattern"999/Z999"
+      pattern"999999999".imap{ in =>
+        checkDigit(in).toString ++ in
+      }( _ match {
+        case s if s.head == checkDigit(s.tail) => s.tail
+        case _ => throw new IllegalArgumentException
+      })
+    }
+
+    implicit val sortCodeEnum: Enumerable[String] = pattern"99-99-99"
+    implicit val accountNumberEnum: Enumerable[String] = pattern"99999999"
+
+    implicit val empRefEnum: Enumerable[String] = pattern"999/Z999"
   }
 }

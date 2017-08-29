@@ -1,4 +1,4 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import org.scalacheck.Gen
 

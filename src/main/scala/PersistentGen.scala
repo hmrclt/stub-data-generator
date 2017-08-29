@@ -1,9 +1,10 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import org.scalacheck._
-import scala.collection.mutable.{Map => MMap, AbstractMap}
+import scala.collection.mutable.{ Map => MMap }
 
-class PersistentGen[K, V](gen: Gen[V], state: MMap[K,Option[V]])(implicit en: Enumerable[K]) extends AbstractMap[K,V] {
+case class PersistentGen[K, V] (gen: Gen[V], state: MMap[K,Option[V]])(implicit en: Enumerable[K])
+    extends MMap[K,V] {
 
   def reset (key: K) = { state -= key; this }
 
@@ -28,4 +29,5 @@ class PersistentGen[K, V](gen: Gen[V], state: MMap[K,Option[V]])(implicit en: En
 
   override def toString = gen.toString
 
+  override def size = {en.size - state.values.count(_.isEmpty)}.toInt
 } 

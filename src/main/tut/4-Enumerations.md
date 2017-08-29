@@ -2,7 +2,7 @@
 
 ```tut:invisible
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 case class Person(
   gender: Gender, 
@@ -57,7 +57,7 @@ val windowTaxGenerator: Gen[WindowTaxAccount] = for {
 ## Using enumerations as the input for the generation - 
 
 ```tut
-import hmrc.smartstub.Enumerable.instances.ninoEnum
+import uk.gov.uk.gov.hmrc.smartstub.Enumerable.instances.ninoEnum
 implicitly[Enumerable[String]]
 val ninoNineThousandAndNine = Enumerable[String].apply(9009L)
 windowTaxGenerator.seeded(ninoNineThousandAndNine).get

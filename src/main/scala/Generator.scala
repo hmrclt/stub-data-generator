@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import scala.collection.concurrent.TrieMap
 import java.time.LocalDate

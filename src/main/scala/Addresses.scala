@@ -1,4 +1,4 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import org.scalacheck._
 import Gen._
@@ -20,8 +20,7 @@ trait Addresses extends Any {
     street <- streetNames
     postcode <- postcodeSuffix
   } yield List(
-    addressNumber.toString() ++ addressLetter.getOrElse(""),
-    street,
+    addressNumber.toString() ++ addressLetter.getOrElse("") ++ " " ++ street,
     town,
     codePrefix ++ postcode
   )

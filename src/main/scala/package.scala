@@ -1,4 +1,4 @@
-package hmrc
+package uk.gov.hmrc
 
 import org.scalacheck._
 import scala.language.implicitConversions
@@ -13,6 +13,8 @@ package object smartstub
 {
   implicit def genToRich[A](g: Gen[A]): RichGen[A] = RichGen(g)
 
+  implicit def enumToGen[A](e: Enumerable[A]): Gen[A] = e.gen
+
   implicit class AdvGen(
     val g: Gen.type
   ) extends AnyVal with Loader
@@ -24,7 +26,6 @@ package object smartstub
   {
     def boolean: Gen[Boolean] = Gen.oneOf(true, false)
   }
-
 
   implicit val longEnum = Enumerable.instances.longEnum
 

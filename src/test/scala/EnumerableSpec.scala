@@ -1,4 +1,4 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import org.scalatest.prop.Checkers
 import org.scalacheck.Arbitrary._

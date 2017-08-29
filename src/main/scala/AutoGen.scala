@@ -1,4 +1,4 @@
-package hmrc.smartstub
+package uk.gov.hmrc.smartstub
 
 import org.scalacheck._
 import shapeless._
@@ -26,16 +26,18 @@ object AutoGen {
   }
 
   // 'basic' types
-  implicit val providerInt = instance(_ match {
+  implicit val providerInt = instance(_.toLowerCase match {
     case "age" => Gen.choose(1,80)
     case _ => Gen.choose(1,1000)
   })
 
   implicit val providerString = instance(
-    _ match {
-      case "forename" => Gen.forename
-      case "surname" => Gen.surname
-      case "gender" => Gen.oneOf("male", "female")
+    _.toLowerCase match {
+      case "forename" | "firstname" => Gen.forename
+      case "surname" | "lastname" | "familyname" => Gen.surname
+      case x if x.toLowerCase.contains("address") =>
+        Gen.ukAddress.map{_.mkString(", ")}
+      case "gender" | "sex" => Gen.oneOf("male", "female")
       case "nino" => Enumerable.instances.ninoEnum.gen
       case "utr" => Enumerable.instances.utrEnum.gen
       case "company" => Gen.company

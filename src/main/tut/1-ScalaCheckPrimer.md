@@ -50,7 +50,7 @@ Now you can use the ```sbt console``` command to work with the stub generator. W
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val name = Gen.forename
 name.sample.foreach(println)
@@ -62,7 +62,7 @@ We can generate surnames in a similar fashion:
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val lastname = Gen.surname
 lastname.sample.foreach{println}
@@ -74,7 +74,7 @@ These meet the requirement that the data that is generated is plausible, but usi
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val lastname = Gen.surname
 lastname.sample.foreach{println}
@@ -86,7 +86,7 @@ How can we ensure that the same names are generated on demand? We can use the ``
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val name = Gen.forename
 name.seeded(1L).foreach{println}
@@ -98,7 +98,7 @@ Even if the console is restarted, ``seeded(2L)``  will always return "Isaiha":
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val name = Gen.forename
 name.seeded(2L).foreach{println}
@@ -108,7 +108,7 @@ This leads to an important difference when generating a collection of names. If 
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val randomNames = (1 to 5).map{x => name.sample.get}
 val moreRandomNames = (1 to 5).map{x => name.sample.get}
@@ -118,7 +118,7 @@ But if we want to generate the same collection of names each time, we have to us
 
 ```scala
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 val seededNames = (1 to 5).map{x => name.seeded(x.toLong).get}
 val moreSeededNames = (1 to 5).map{x => name.seeded(x.toLong).get}

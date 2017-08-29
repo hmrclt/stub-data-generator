@@ -2,7 +2,7 @@
 
 ```tut
 import org.scalacheck._
-import hmrc.smartstub._
+import uk.gov.uk.gov.hmrc.smartstub._
 
 case class Person(
   gender: Gender, 
