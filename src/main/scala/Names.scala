@@ -22,7 +22,6 @@ trait Names extends Any {
 
 object Names extends Loader {
   lazy val surname: Gen[String] = loadWeightedFile("surnames.txt")
-  println("surname is " + surname)
   lazy val _forenames: Map[Gender, Gen[String]] = Map(
     ( Male -> loadFile("forenames-male.txt")),
     ( Female -> loadFile("forenames-female.txt"))

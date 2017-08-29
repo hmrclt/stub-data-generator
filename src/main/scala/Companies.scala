@@ -25,22 +25,44 @@ object Companies extends Loader {
 
   private lazy val random = new Random
 
-  private def buildR(length: Int): String = {
+  private def buildCompanyName(length: Int): String = {
 
-    def innerBuild(l: Int, built: mutable.StringBuilder = mutable.StringBuilder.newBuilder): String = {
-      if (l <= built.length) {
-        built.toString()
+    def innerBuild(l: Int, built: String = ""): String = {
+      if(l <= built.length) {
+        built
       } else {
         built match {
-          case a if a.length >= windowSize => built.append(markovChain.next(built.takeRight(windowSize).toString.toList))
-          case b if b.nonEmpty => built.append(markovChain.next(built.toString.toList))
-          case _ => built.append(markovChain.next())
+          case a if a.length >= windowSize => innerBuild(l,built + markovChain.next(built.takeRight(windowSize).toList))
+          case b if b.nonEmpty => innerBuild(l, built + markovChain.next(built.toList))
+          case _ => innerBuild(l,built + markovChain.next())
         }
-        innerBuild(l, built)
       }
     }
+
     innerBuild(length)
   }
+
+//  private def buildCompanyName(length: Int): Gen[String] = {
+//
+//    for (i <- 0 until length) {
+//
+//    }
+//    def innerBuild(l: Int, built: String = ""): String = {
+//      if(l <= built.length) {
+//        built
+//      } else {
+//        built match {
+//          case a if a.length >= windowSize => innerBuild(l,built + markovChain.next(built.takeRight(windowSize).toList))
+//          case b if b.nonEmpty => innerBuild(l, built + markovChain.next(built.toList))
+//          case _ => innerBuild(l,built + markovChain.next())
+//        }
+//      }
+//    }
+//
+//    innerBuild(length)
+//  }
+
+
 
   private def maybeAmpersand(companyName: String):String = companyName match {
     case c if c.split(" ").length == 2 && (random nextInt 10) < 5 => c.replace(" ", " & ")
@@ -70,7 +92,8 @@ object Companies extends Loader {
 
   private def buildCompanyName: String = {
     val randomLength = 15
-    finesse(buildR(7 + random.nextInt(randomLength)).trim)
+//    finesse(buildCompanyName(7 + random.nextInt(randomLength)).trim)
+    buildCompanyName(7 + random.nextInt(randomLength)).trim
   }
 
   private def companies: Seq[String] = {
