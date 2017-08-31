@@ -4,7 +4,7 @@ organization := "uk.gov.hmrc"
 
 scalaVersion := "2.12.2"
 
-version := "0.3.3"
+version := "0.4.0"
 
 crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2")
 

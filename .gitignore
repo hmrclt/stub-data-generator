@@ -20,3 +20,4 @@ project/build/properties
 .worksheet
 .ensime*
 **~
+**/*.sc
