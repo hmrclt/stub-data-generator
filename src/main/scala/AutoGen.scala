@@ -58,7 +58,7 @@ object AutoGen extends LowPriorityGenProviderInstances {
 
   implicit def providerLocalDate(s: String): GenProvider[LocalDate] = instance({
     s.toLowerCase match {
-      case "dateofbirth" | "dob" | "birthdate" | "bornon" | "birthday" ⇒ Gen.age.map(a ⇒ LocalDate.now().minusDays(a.toLong))
+      case "dateofbirth" | "dob" | "birthdate" | "bornon" | "birthday" ⇒ Gen.age.map(a ⇒ LocalDate.now().minusYears(a.toLong))
       case _                                                           ⇒ Gen.date
     }
   })
