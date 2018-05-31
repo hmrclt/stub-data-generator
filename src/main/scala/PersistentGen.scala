@@ -3,7 +3,11 @@ package uk.gov.hmrc.smartstub
 import org.scalacheck._
 import scala.collection.mutable.{ Map => MMap }
 
-case class PersistentGen[K, V] (gen: Gen[V], state: MMap[K,Option[V]])(implicit en: Enumerable[K])
+case class PersistentGen[K, V] (
+  gen: Gen[V],
+  state: MMap[K,Option[V]],
+  keyFilter: K => Boolean = { _: K => true }
+)(implicit en: Enumerable[K])
     extends MMap[K,V] {
 
   def reset (key: K) = { state -= key; this }
@@ -21,7 +25,8 @@ case class PersistentGen[K, V] (gen: Gen[V], state: MMap[K,Option[V]])(implicit 
 
   def get(key: K): Option[V] = {state get key} match {
     case Some(x) => x
-    case None => gen.seeded(key)
+    case None if keyFilter(key) => gen.seeded(key)
+    case None => None
   }
 
   def iterator: Iterator[(K,V)] =

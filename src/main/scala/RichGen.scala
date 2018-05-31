@@ -12,10 +12,19 @@ case class RichGen[A](g: Gen[A]) extends AnyVal {
       g, scala.collection.concurrent.TrieMap.empty[K,Option[A]]
     )
 
+  def asMutableWithFilter[K](
+    f: K => Boolean
+  )(implicit en: Enumerable[K]): PersistentGen[K,A] =
+    new PersistentGen(
+      g,
+      scala.collection.concurrent.TrieMap.empty[K,Option[A]],
+      f
+    )
+
   def iterator[K](implicit en: Enumerable[K]): Iterator[A] =
     en.iterator.flatMap(seeded(_))
 
-  def optFrequency(i: Int): Gen[Option[A]] = 
+  def optFrequency(i: Int): Gen[Option[A]] =
     Gen.frequency(
       i -> g.map(Some(_)),
       {100 - i} -> const[Option[A]](None)
